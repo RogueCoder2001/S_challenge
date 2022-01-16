@@ -6,7 +6,7 @@ from flask_pymongo import PyMongo
 
 
 def set_up_db():
-    URL = "mongodb+srv://RogueMongoDB:Roge2001@cluster0.b6ljn.mongodb.net/sample_supplies?retryWrites=true&w=majority"
+    URL = "mongodb+srv://RogueMongoDB:<<password>>@cluster0.b6ljn.mongodb.net/sample_supplies?retryWrites=true&w=majority"
 
     # connect to MongoDB, change the << MONGODB URL >> to reflect your own connection string
     client = MongoClient(URL)
