@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<style>
+    .button-7 {
+        background-color: #0095ff;
+        border: 1px solid transparent;
+        border-radius: 3px;
+        box-shadow: rgba(255, 255, 255, 0.4) 0 1px 0 0 inset;
+        box-sizing: border-box;
+        color: #fff;
+        cursor: pointer;
+        display: inline-block;
+        font-family: -apple-system, system-ui, "Segoe UI", "Liberation Sans", sans-serif;
+        font-size: 13px;
+        font-weight: 400;
+        line-height: 1.15385;
+        margin: 0;
+        outline: none;
+        padding: 8px 0.8em;
+        position: relative;
+        text-align: center;
+        text-decoration: none;
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: manipulation;
+        vertical-align: baseline;
+        white-space: nowrap;
+    }
+    
+    .button-7:hover,
+    .button-7:focus {
+        background-color: #07c;
+    }
+    
+    .button-7:focus {
+        box-shadow: 0 0 0 4px rgba(0, 149, 255, 0.15);
+    }
+    
+    .button-7:active {
+        background-color: #0064bd;
+        box-shadow: none;
+    }
+    
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: black;
+        background-color: rgba(0, 149, 255, 0.15);
+    }
+    
+    .modal-content {
+        position: absolute;
+        left: 50%;
+        top: 30%;
+        transform: translate(-50%, -50%);
+        background-color: aliceblue;
+        margin: auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 30%;
+        max-height: 50%;
+    }
+    
+    .close {
+        color: #aaaaaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+    
+    .close:hover,
+    .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }
+    
+    table,
+    th,
+    td {
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+    
+    th,
+    td {
+        padding: 5px;
+        text-align: left;
+    }
+</style>
+<html>
+
+<head>
+    <title>
+        Shopify Backend Developer Intern Challenge | Logistics Company Inventory
+    </title>
+</head>
+
+<body>
+    <div class="modal" id="add-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add Item</h5>
+                <span class="close" id="add-close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form method="POST" id="add-form" action="/add_item">
+                    <div>
+                        <label for="name-input">Name:</label>
+                        <Input type="text" id="name-input" name="name-input" style="width: auto;">
+                    </div>
+                    <div style="margin-top: 20px;">
+                        <label for="description-input">Description:</label>
+                        <Input type="text" id="description-input" name="description-input">
+                    </div>
+                    <div style="margin-top: 20px;">
+                        <label for="count-input">Count:</label>
+                        <Input type="number" id="count-input" name="count-input">
+                    </div>
+
+                    <button type="submit" value="Submit" class="btn btn-primary">Add</button>
+                    <button type="button" class="btn btn-secondary" id="add-close-button">Close</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="update-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Update Item</h5>
+                <span class="close" id="update-close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form method="POST" id="update-form" action="/update_item">
+                    <div>
+                        <label for="name-input">Name:</label>
+                        <Input type="text" id="update-name-input" name="name-input" style="width: auto;">
+                    </div>
+                    <div style="margin-top: 20px;">
+                        <label for="description-input">Description:</label>
+                        <Input type="text" id="update-description-input" name="description-input">
+                    </div>
+                    <div style="margin-top: 20px;">
+                        <label for="count-input">Count:</label>
+                        <Input type="number" id="update-count-input" name="count-input">
+                    </div>
+                    <input type="hidden" id="update-form-item-id" name="update-form-item-id" value="">
+                    <button type="submit" value="Submit" class="btn btn-primary">Update</button>
+                    <button type="button" class="btn btn-secondary" id="update-close-button">Close</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <h2>
+            Shopify Backend Developer Intern Challenge | Logistics Company Inventory
+        </h2>
+        <h3>Roger Luo</h3>
+        <br />
+        <button class="button-7" role="button" onclick="showAddModal()">Add Item</button>
+        <br />
+    </div>
+
+
+    <h2>Inventory</h2>
+    <div>
+        <div class="table-container" name="table-container" style="height: 800px; overflow:auto;">
+            <table>
+                <tr>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Count</th>
+                    <th>Action</th>
+                </tr>
+
+                {%for item in inv%}
+                <tr>
+                    <td value="{{item.name}}" id="item-name-{{item._id}}">{{item.name}}</td>
+                    <td id="item-description-{{item._id}}">{{item.description}}</td>
+                    <td id="item-count-{{item._id}}">{{item.count}}</td>
+                    <td class="action-col">
+                        <dir>
+                            <button class="btn btn-link text-dark dropbown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="icon icon-sm">
+                                    <span class="fas fa-ellipsis-h icon-dark"></span>
+                                </span>
+                            </button>
+                            <div class="dropdown-menu py-0">
+                                <button name="modify" onclick="showUpdateModal(this)" class="dropdown-item" id="update-{{item._id}}">
+                                    <span class="fas fa-edit me-2"></span>Update
+                                </button>
+                                <button name="delete" onclick="deleteItem(this)" class="dropdown-item" id="delete-{{item._id}}">
+                                <span class="fas fa-edit me-2"></span>Delete
+                            </button>
+                                <!-- <p>{{item._id}}</p> -->
+                            </div>
+                        </dir>
+                    </td>
+                </tr>
+                {%endfor%}
+            </table>
+
+
+        </div>
+    </div>
+</body>
+<form action="/delete_item" method="POST" id="delete-form">
+    <input type="hidden" id="delete-form-item-id" name="delete-form-item-id" value="">
+</form>
+
+</html>
+
+<script>
+    function deleteItem(prop) {
+        var id = prop.id.split('-')[1]
+        console.log(id)
+        var input = document.getElementById("delete-form-item-id")
+        input.value = id
+        var form = document.getElementById("delete-form")
+        form.submit()
+    }
+
+    function showUpdateModal(prop) {
+        console.log("update Modal")
+        var modal = document.getElementById("update-modal")
+        var span = document.getElementById("update-close")
+        var close_button = document.getElementById("update-close-button")
+
+        console.log(prop.id.split('-')[1])
+        id = prop.id.split('-')[1]
+
+        //prefill values
+        var name = document.getElementById("item-name-" + id).innerText
+        var description = document.getElementById("item-description-" + id).innerText
+        var count = document.getElementById("item-count-" + id).innerText
+
+        document.getElementById("update-name-input").value = name
+        document.getElementById("update-description-input").value = description
+        document.getElementById("update-count-input").value = count
+        document.getElementById("update-form-item-id").value = id
+
+
+
+        modal.style.display = "block"
+
+        span.onclick = function() {
+            modal.style.display = "none";
+            console.log("wfw")
+        }
+        close_button.onclick = function() {
+            modal.style.display = "none";
+        }
+    }
+
+    function showAddModal() {
+        console.log("add Modal")
+        var modal = document.getElementById("add-modal")
+        var span = document.getElementById("add-close")
+        var close_button = document.getElementById("add-close-button")
+        console.log(close_button)
+        modal.style.display = "block"
+
+        span.onclick = function() {
+            modal.style.display = "none";
+            console.log("wfw")
+        }
+        close_button.onclick = function() {
+            modal.style.display = "none";
+
+        }
+    }
+</script>
