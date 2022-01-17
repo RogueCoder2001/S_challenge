@@ -156,6 +156,26 @@
         </div>
     </div>
 
+    <div class="modal" id="export-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Export to csv</h5>
+                <span class="close" id="export-close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form action="/export_table" method="POST" id="export-form">
+                    <div>
+                        <label for="name-input">File name:</label>
+                        <Input type="text" id="export-name-input" name="name-input" style="width: auto;">
+                    </div>
+                    <button type="submit" value="Submit" class="btn btn-primary">Export</button>
+                    <button type="button" class="btn btn-secondary" id="export-close-button">Close</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
     <div class="container">
         <h2>
             Shopify Backend Developer Intern Challenge | Logistics Company Inventory
@@ -163,6 +183,7 @@
         <h3>Roger Luo</h3>
         <br />
         <button class="button-7" role="button" onclick="showAddModal()">Add Item</button>
+        <button class="button-7" role="button" onclick="exportTable()">Export Table</button>
         <br />
     </div>
 
@@ -208,14 +229,36 @@
 
         </div>
     </div>
+
+
 </body>
 <form action="/delete_item" method="POST" id="delete-form">
     <input type="hidden" id="delete-form-item-id" name="delete-form-item-id" value="">
 </form>
 
+
 </html>
 
 <script>
+    function exportTable() {
+        var form = document.getElementById("export-form")
+        var modal = document.getElementById("export-modal")
+        var span = document.getElementById("export-close")
+        var close_button = document.getElementById("export-close-button")
+
+
+
+        modal.style.display = "block"
+
+        span.onclick = function() {
+            modal.style.display = "none";
+            console.log("wfw")
+        }
+        close_button.onclick = function() {
+            modal.style.display = "none";
+        }
+    }
+
     function deleteItem(prop) {
         var id = prop.id.split('-')[1]
         console.log(id)
@@ -243,8 +286,6 @@
         document.getElementById("update-description-input").value = description
         document.getElementById("update-count-input").value = count
         document.getElementById("update-form-item-id").value = id
-
-
 
         modal.style.display = "block"
 

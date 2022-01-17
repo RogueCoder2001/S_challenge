@@ -1,11 +1,15 @@
+import csv
+import datetime
+import os
 from typing_extensions import Required
 from flask import render_template, request, Flask, redirect, url_for
 from pymongo import MongoClient
 from bson.objectid import ObjectId
+from config import password
 
 
 def set_up_db():
-    URL = "mongodb+srv://RogueMongoDB:<<password>>@cluster0.b6ljn.mongodb.net/sample_supplies?retryWrites=true&w=majority"
+    URL = "mongodb+srv://RogueMongoDB:"+password+"@cluster0.b6ljn.mongodb.net/sample_supplies?retryWrites=true&w=majority"
 
     # connect to MongoDB, change the << MONGODB URL >> to reflect your own connection string
     client = MongoClient(URL)
@@ -42,6 +46,47 @@ def add_item():
         return redirect(url_for('.hello'))
 
 
+@app.route('/export_table', methods=['POST', 'GET'])
+def export_table():
+    if request.method == 'GET':
+        return f"The URL /data is accessed directly. Try going to '/form' to submit form"
+    if request.method == 'POST':
+        fname=""
+        form_data = request.form
+        for i in form_data:
+            if 'name' in i:
+                fname = form_data[i]
+        print("exporting table")
+        print(fname)
+        mongo_export_to_file(fname)
+
+        return redirect(url_for('.hello'))
+        
+        
+def mongo_export_to_file(fname):  
+    # today = datetime.today()
+    # today = today.strftime("%m-%d-%Y")
+    # _, _, instance_col = db.Inventory
+    # print(instance_col)
+    # make an API call to the MongoDB server
+    mongo_docs = db.Inventory.find({'deleted':0})
+    # if mongo_docs.count() == 0:
+    #     return
+
+    fieldnames = list(mongo_docs[0].keys())
+    fieldnames.remove('_id')
+    fieldnames.remove('deleted')
+
+    # compute the output file directory and name
+    output_dir = os.path.join('.', 'exports', '')
+    print(output_dir)
+    output_file = os.path.join(output_dir, fname+'.csv')
+    with open(output_file, 'w', newline='') as csvfile:
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames, extrasaction="ignore")
+        writer.writeheader()
+        writer.writerows(mongo_docs)
+    return;
+
 @app.route('/delete_item', methods=['POST', 'GET'])
 def delete_item():
     if request.method == 'GET':
@@ -55,9 +100,7 @@ def delete_item():
         print(id)
         db.Inventory.update_one({'_id': ObjectId(id)}, {
                                 '$inc': {'deleted': 1}})
-        # db.reviews.update_one({'_id': store.get('_id')}, {'$inc': {
-        #                            'rating': 1}})
-        # return render_template('data.html', form_data=form_data)
+
         return redirect(url_for('.hello'))
 
 
