@@ -2,7 +2,6 @@ from typing_extensions import Required
 from flask import render_template, request, Flask, redirect, url_for
 from pymongo import MongoClient
 from bson.objectid import ObjectId
-from flask_pymongo import PyMongo
 
 
 def set_up_db():
