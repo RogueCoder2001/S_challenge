@@ -31,7 +31,8 @@ $ pip install -U Flask
 
 
 <h2>How to Run</h2>
-Clone and move into S_challenge directory, then open smd in this directory
+Clone and move into S_challenge directory, then open cmd in this directory
+Change password value in config file to "Roge2001"
 
 ```bash
 set FLASK_APP=app
