@@ -38,13 +38,16 @@ flask run
 Update
 
 https://user-images.githubusercontent.com/30164187/150045485-1218d07c-0a14-4c94-a3d4-38f512ae3a48.mp4
+
 Delete
 
 https://user-images.githubusercontent.com/30164187/150045412-7756874f-69d4-483f-9b1e-4c0cfa005bdd.mp4
+
 Add
 
 
 https://user-images.githubusercontent.com/30164187/150045244-83e2c2e7-da8f-4d95-978f-9cb94ffde304.mp4
+
 Export
 
 https://user-images.githubusercontent.com/30164187/150045309-73c0cad9-5ff0-462c-91a7-c4a4e0de9e35.mp4
