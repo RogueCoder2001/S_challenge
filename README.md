@@ -13,7 +13,7 @@ In this challenge, I created a backend database to track inventory for a logisti
 <li>pymongo</li>
 
 <h2>Installation</h2>
-To install pymongo:
+To install pymongo:(if does not work try using python3)
 
 ```
 $ python -m pip install pymongo[srv]
@@ -35,11 +35,12 @@ flask run
 ```
 
 <h2>Using the Application</h2>
-Add through add button
+Update and delete
 image
 <br>
-delete by clicking delete button
+Add and export table(export table is in the exports folder under the name newnewfile.csv)
 image
 <br>
-update by clicking modify button and then adding the nessesary changes and pressing update.
-image
+
+<h2>API testing</h2>
+Test file in test folder, results are in the gif below

@@ -214,22 +214,14 @@
                     <td id="item-description-{{item._id}}">{{item.description}}</td>
                     <td id="item-count-{{item._id}}">{{item.count}}</td>
                     <td class="action-col">
-                        <dir>
-                            <button class="btn btn-link text-dark dropbown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="icon icon-sm">
-                                    <span class="fas fa-ellipsis-h icon-dark"></span>
-                                </span>
-                            </button>
-                            <div class="dropdown-menu py-0">
-                                <button name="modify" onclick="showUpdateModal(this)" class="dropdown-item" id="update-{{item._id}}">
+                        <div>
+                            <button name="modify" onclick="showUpdateModal(this)" id="update-{{item._id}}">
                                     <span class="fas fa-edit me-2"></span>Update
                                 </button>
-                                <button name="delete" onclick="deleteItem(this)" class="dropdown-item" id="delete-{{item._id}}">
+                            <button name="delete" onclick="deleteItem(this)" id="delete-{{item._id}}">
                                 <span class="fas fa-edit me-2"></span>Delete
                             </button>
-                                <!-- <p>{{item._id}}</p> -->
-                            </div>
-                        </dir>
+                        </div>
                     </td>
                 </tr>
                 {%endfor%}
