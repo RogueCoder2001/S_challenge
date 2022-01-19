@@ -9,8 +9,12 @@ In this challenge, I created a backend database to track inventory for a logisti
 <h2>Technologies Used</h2>
 <li>Flask</li>
 <li>Python</li>
+<li>Javascript</li>
 <li>Mongodb</li>
 <li>pymongo</li>
+<li>csv</li>
+<li>os</li>
+<li>pprint</li>
 
 <h2>Installation</h2>
 To install pymongo:(if does not work try using python3)
@@ -24,6 +28,7 @@ To install Flask:
 ```
 $ pip install -U Flask
 ```
+
 
 <h2>How to Run</h2>
 Clone and move into S_challenge directory, then open smd in this directory
